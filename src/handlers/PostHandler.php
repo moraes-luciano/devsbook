@@ -2,6 +2,8 @@
 namespace src\handlers;
 
 use \src\models\Post;
+use src\models\PostLike;
+use src\models\PostComment;
 use \src\models\User;
 use \src\models\UserRelation;
 
@@ -19,6 +21,39 @@ class PostHandler {
                 'body' => $body
             ])->execute();
         }
+    }
+
+    public static function delete($id, $loggedUserId){
+       
+        // 1- Verificar se o post existe e se é seu
+
+        $post = Post::select()
+            ->where('id',$id)
+            ->where('id_user',$loggedUserId)
+        ->get();
+
+        if(count($post)>0){
+            $post = $post[0];
+        }
+        
+        // 2- Deletar os likes e comments
+
+        PostLike::delete()->where('id_post',$id)->execute();
+        PostComment::delete()->where('id_post',$id)->execute();
+
+        // 3- Se a foto for type photo, deletar o arquivo também 
+
+        if($post->type === 'photo'){
+            
+            $img = 'media/uploads/'.$post->body;
+            if(file_exists($img)){
+               unlink($img);
+            }
+        }
+
+        // 4- deletar o post
+
+        Post::delete()->where('id',$id)->execute();
     }
 
 
@@ -50,19 +85,74 @@ class PostHandler {
 
             // TODO 4.1 Preencher as informações de Like
             
-            $newPost->likeCount = 0;
-            $newPost->liked = false;
+            $likes = PostLike::select()->where('id_post',$postItem['id'])->get();
+            
+            $newPost->likeCount = count($likes);
+            $newPost->liked = self::isLiked($postItem['id'], $loggedUserId);
             
             // TODO 4.2 Preencher as informações de comentários
             
-            $newPost->comments = [];
+            $newPost->comments = PostComment::select()->where('id_post', $postItem['id'])->get();
+            
+            foreach($newPost->comments as $key =>$comment){
 
+                $newPost->comments[$key]['user'] = User::select()->where('id', $comment['id_user'])->one();
+                
+            }
+            
             $posts[] = $newPost;
+
+
         }
 
         return $posts;
     }
 
+    public static function isLiked($id, $loggedUserId){
+            
+        $myLike = PostLike::select()
+            ->where('id_post',$id)
+            ->where('id_user',$loggedUserId)
+        ->get();
+
+        if (count($myLike) > 0){
+            
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    public static function deleteLike($id, $loggedUserId){
+
+        PostLike::delete()
+            ->where('id_post',$id)
+            ->where('id_user',$loggedUserId)
+        ->execute();
+
+    }
+
+    public static function addLike($id, $loggedUserId){
+
+        PostLike::insert([
+            'id_post' => $id,
+            'id_user' => $loggedUserId,
+            'created_at' => date('Y-m-d H:i:s')
+        ])->execute();
+    }
+
+
+    public static function addComment($id, $txt, $loggedUserId){
+
+        PostComment::insert([
+            'id_post' => $id,
+            'id_user' => $loggedUserId,
+            'created_at' =>date('Y-m-d H:i:s'),
+            'body' => $txt
+        ])->execute();
+    }
 
     public static function getUserFeed($userId,$page,$loggedUserId){
 

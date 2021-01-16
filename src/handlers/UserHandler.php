@@ -171,4 +171,27 @@ class UserHandler {
             ->where('user_to',$to)
         ->execute();
     }
+
+    public static function searchUser($term){
+
+        $users = [];
+        $data = User::select()->where('name', 'like', '%'.$term.'%')->get();
+
+        if($data){
+
+            foreach($data as $user){
+
+                $newUser = new User();
+                $newUser->id = $user['id'];
+                $newUser->name = $user['name'];
+                $newUser->userPicture = $user['userPicture'];
+
+                $users[] = $newUser;
+                        
+            }
+
+        }
+
+        return $users;
+    }
 }
