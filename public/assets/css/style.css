@@ -425,6 +425,42 @@ header .head-side {
     text-decoration: none;
     display: inline-block;
 }
+.configOptions{
+    width: 100%;
+}
+
+.configOptions form{ 
+    width: 70%;
+    margin: auto;
+    padding: 15px 15px;
+    
+}
+.configOptions hr{
+    margin: 10px 0;
+}
+
+.option{
+    margin: 25px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.option.file label{
+    margin: 10px 0;
+}
+
+.option.data input{
+    height: 30px;
+}
+
+.flash{
+    border:2px solid red;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius:3px;
+}
 
 @media (max-width: 992px) {
     header .head-side-right {

@@ -43,9 +43,9 @@ class PostHandler {
 
         // 3- Se a foto for type photo, deletar o arquivo também 
 
-        if($post->type === 'photo'){
+        if($post['type'] === 'photo'){
             
-            $img = 'media/uploads/'.$post->body;
+            $img = __DIR__.'/../../public/media/uploads/'.$post['body'];
             if(file_exists($img)){
                unlink($img);
             }

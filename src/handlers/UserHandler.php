@@ -15,6 +15,7 @@ class UserHandler {
         if(!empty($_SESSION['token'])){
 
             $token = $_SESSION['token'];
+            
             $data = User::select()->where('token', $token)->one();
             if(count($data) > 0){
                 
@@ -23,7 +24,10 @@ class UserHandler {
                 $loggedUser->email = $data['email'];
                 $loggedUser->name = $data['name'];
                 $loggedUser->birthdate = $data['birthdate'];
+                $loggedUser->city = $data['city'];
+                $loggedUser->work = $data['work'];
                 $loggedUser->userPicture = $data['userPicture'];
+ 
 
                 return $loggedUser;
             }
@@ -67,6 +71,7 @@ class UserHandler {
 
             $user->id = $data['id'];
             $user->name = $data['name'];
+            $user->email = $data['email'];
             $user->birthdate = $data['birthdate'];
             $user->city = $data['city'];
             $user->work = $data['work'];
@@ -136,6 +141,9 @@ class UserHandler {
         return $token;
     }
 
+
+    
+
     public static function idExists($id){
         $user = User::select()->where('id', $id)->one();
         return $user? true : false;
@@ -194,4 +202,71 @@ class UserHandler {
 
         return $users;
     }
+
+    public static function birthdateCheck($birthdate){
+        
+        $birthdate = explode('/',$birthdate);
+        
+        if(count($birthdate) != 3){
+
+            return false;
+            
+        }
+
+        $birthdate = $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0];
+        
+        if(strtotime($birthdate) === false){
+
+            return false;
+
+        }
+
+        return $birthdate;
+    }
+
+ 
+
+    public static function updateData($userChanges,$userId){
+        
+
+        $update = User::update();
+
+        foreach($userChanges as $key => $value){
+            if(!empty(trim($value))){
+               
+               $update->set($key, $value);
+            }
+           
+        }
+       
+        $update->where('id', $userId)->execute();
+
+        
+    }
+
+
+    public static function securityValidation($userId, $password, $newPassword){
+
+        $user = User::select()->where('id', $userId)->one();
+        
+        
+        if($user){
+           
+            if(password_verify($password, $user['password'])){
+                
+                
+                $securityData = [
+                    'password' => password_hash($newPassword, PASSWORD_DEFAULT),
+                    'token' => md5(time().rand(0,9999).time())
+                ];
+                
+                
+                return $securityData;
+                
+            }
+        }
+
+        return false;
+    }
+
 }

@@ -31,6 +31,9 @@ $router->get('/pesquisa','SearchController@index');
 $router->get('/ajax/like/{id}', 'AjaxController@like');
 $router->post('/ajax/comment', 'AjaxController@comment');
 
+$router->get('/config', 'ConfigController@updateAccount');
+$router->post('/config', 'ConfigController@updateAction');
+
 $router->get('/sair', 'LoginController@logout');
 
 
