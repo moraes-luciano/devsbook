@@ -67,8 +67,9 @@ class ConfigController extends Controller {
             'name' => filter_input(INPUT_POST,'name',FILTER_SANITIZE_SPECIAL_CHARS),
             'email' => filter_input(INPUT_POST,'email',FILTER_VALIDATE_EMAIL),
             'city' => filter_input(INPUT_POST,'city'),
-            'work' => filter_input(INPUT_POST, 'work'),
+            'work' => filter_input(INPUT_POST, 'work'), 
         ];
+
 
         $userBirthdate = filter_input(INPUT_POST,'birthdate');
         
@@ -106,24 +107,79 @@ class ConfigController extends Controller {
             else{
 
                 $_SESSION['flash']+=['flash_password' => 'Senha inválida'];
-
-                // print_r($_SESSION['flash']);
-                // print_r('chegou aqui');
-                // foreach($_SESSION['flash'] as $key => $value){
-                //     print_r($key);
-                //     print_r('|||');
-                // }
                 $this->redirect('/config');
-
             }
             
         }
+
+        // Profile - userImage
+
+        if(isset($_FILES['userPicture']) && !empty($_FILES['userPicture']['tmp_name'])){
+            $newUserPicture = $_FILES['userPicture'];
+
+            if(in_array($newUserPicture['type'],['image/jpeg', 'image/jpg', 'image/png'])){
+                $userPictureName = $this->cutImage($newUserPicture,200,200,'media/profile');
+                $userChanges+=['userPicture'=>$userPictureName];
+               
+            }
+        }
         
-        
+        // Cover Img 
+
+
+        if(isset($_FILES['cover']) && !empty($_FILES['cover']['tmp_name'])){
+            $newCover = $_FILES['cover'];
+
+            if(in_array($newCover['type'],['image/jpeg', 'image/jpg', 'image/png'])){
+                $coverName = $this->cutImage($newCover,850,310,'media/covers');
+                $userChanges+=['coverPicture'=>$coverName];
+            }
+        }
+
+
         UserHandler::updateData($userChanges,$userId);
         $this->redirect('/config');
        
     }
    
+    private function cutImage($file, $width, $height, $destFolder){
+        list($widthOrig, $heightOrig) = getimagesize($file['tmp_name']);
+        $ratio = $widthOrig/$heightOrig;
 
+        $newWidth = $width;
+        $newHeight = $newWidth/$ratio;
+
+        if($newHeight < $height){
+            $newHeight = $height;
+            $newWidth = $newHeight * $ratio;
+        }
+
+        $x = $width - $newWidth;
+        $y = $height - $newHeight;
+        $x =$x <0? $x/2: $x;
+        $y =$y <0? $y/2: $y;
+
+        $finalImg = imagecreatetruecolor($width,$height);
+        switch($file['type']){
+            case 'image/jpeg':
+            case 'image/jpg':
+                $image = imagecreatefromjpeg($file['tmp_name']);
+                break;
+            case 'image/png':
+                $image = imagecreatefrompng($file['tmp_name']);
+                break;
+        }
+
+        imagecopyresampled(
+            $finalImg, $image,
+            $x, $y, 0, 0,
+            $newWidth, $newHeight, $widthOrig, $heightOrig
+        );
+
+        $fileName = md5(time().rand(0,9999)).'.jpg';
+        imagejpeg($finalImg, $destFolder.'/'.$fileName);
+
+        return $fileName;
+
+    }
 }

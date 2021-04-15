@@ -453,6 +453,9 @@ header .head-side {
     height: 30px;
 }
 
+.image-edit{
+    max-width: 150px;  
+}
 .flash{
     border:2px solid red;
     background-color: red;

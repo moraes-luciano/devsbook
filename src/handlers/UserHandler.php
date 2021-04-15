@@ -27,6 +27,7 @@ class UserHandler {
                 $loggedUser->city = $data['city'];
                 $loggedUser->work = $data['work'];
                 $loggedUser->userPicture = $data['userPicture'];
+                $loggedUser->coverPicture = $data['coverPicture'];
  
 
                 return $loggedUser;
@@ -61,7 +62,7 @@ class UserHandler {
         return $user? true : false;
     }
 
-    public static function getUser($id, $full = false){
+    public static function getUser($id, $full = false){ 
         
         $data = User::select()->where('id', $id)->one();
 
@@ -109,7 +110,7 @@ class UserHandler {
                     $newUser->name = $userData['name'];
                     $newUser->userPicture = $userData['userPicture'];
                     
-                    $newUser->following[] = $newUser;
+                    $user->following[] = $newUser;
                 }
 
                 //photos

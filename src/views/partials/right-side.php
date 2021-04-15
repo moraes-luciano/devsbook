@@ -7,8 +7,9 @@
         </div>
     </div>
     <div class="box-body">
-        <a href=""><img src="https://alunos.b7web.com.br/media/courses/php-nivel-1.jpg" /></a>
-        <a href=""><img src="https://alunos.b7web.com.br/media/courses/laravel-nivel-1.jpg" /></a>
+        <a href=""><img src="<?=$base;?>/assets/images/PHP.png"></a>
+        
+        <a href=""><img src="<?=$base;?>/assets/images/LARAVEL.png"></a>
     </div>
 </div>
 

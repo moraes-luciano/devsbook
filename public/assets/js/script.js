@@ -59,7 +59,7 @@ document.querySelectorAll('.feed-item-head-btn').forEach(item=>{
 
 
 if(document.querySelector('.like-btn')) {
-
+    
     document.querySelectorAll('.like-btn').forEach(item=>{
         
         item.addEventListener('click',()=>{
@@ -92,7 +92,8 @@ if(document.querySelector('.fic-item-field')) {
                 let id = item.closest('.feed-item').getAttribute('data-id');
                 let txt = item.value;
                 item.value = '';
-
+                
+                
                 let data = new FormData();
                 data.append('id', id);
                 data.append('txt', txt);
@@ -117,9 +118,20 @@ if(document.querySelector('.fic-item-field')) {
                     item.closest('.feed-item')
                         .querySelector('.feed-item-comments-area')
                         .innerHTML += html;
+                    
+                    if(document.querySelector('.feed-item-comments-area')) {
+                        document.querySelectorAll('.feed-item-comments-area').forEach((item)=>{
+                            let nComments = item.children.length;
+                            let feed = item.closest('.feed-item');
+                            feed.querySelector('.msg-btn').textContent = nComments;
+                            
+                        });
+                    };
                 }
-
             }
         });
+        item.closest('.feed-item');
     });
 }
+
+

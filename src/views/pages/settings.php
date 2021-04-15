@@ -9,18 +9,20 @@
         <div class='configOptions'>
 
  
-        <form method='Post' action="<?=$base;?>/config">
+        <form method='Post' action="<?=$base;?>/config" enctype="multipart/form-data">
             
             <h3>Configurações</h3>
             
             <div class="option file">
                 <label>Nova foto do perfil</label>
-                <input type="file">
+                <input type="file" name="userPicture"/> <br/>
+                <img class="image-edit" src="<?=$base;?>/media/profile/<?=$loggedUser->userPicture;?>">
             </div>
 
             <div class="option file">
                 <label>Nova foto da capa</label>
-                <input type="file">
+                <input type="file" name="cover"/><br/>
+                <img class="image-edit" src="<?=$base;?>/media/covers/<?=$loggedUser->coverPicture;?>">
             </div>
       
             <hr>
