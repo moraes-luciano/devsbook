@@ -1,33 +1,38 @@
-## Instalação
-Você pode clonar este repositório OU baixar o .zip
+# Devsbook - Um clone do Facebook para Devs
 
-Ao descompactar, é necessário rodar o **composer** pra instalar as dependências e gerar o *autoload*.
+# Sobre o projeto
 
-Vá até a pasta do projeto, pelo *prompt/terminal* e execute:
-> composer install
+Devsbook é um projeto feito durante o curso de PHP com a B7Web, trata-se de um clone do Facebook capaz de seguir e ser seguido por usuários cadastrados, fazer comentários, dar likes e configurar a página de seu perfil!
 
-Depois é só aguardar.
+## Conheça suas funcionalidades
 
-## Configuração
-Todos os arquivos de **configuração** e aplicação estão dentro da pasta *src*.
+![alt text](https://github.com/moraes-luciano/assets/blob/main/interacaoComOutrosUsuarios.png)
 
-As configurações de Banco de Dados e URL estão no arquivo *src/Config.php*
 
-É importante configurar corretamente a constante *BASE_DIR*:
-> const BASE_DIR = '/**PastaDoProjeto**/public';
+# Tecnologias Utilizadas
 
-## Uso
-Você deve acessar a pasta *public* do projeto.
+- PHP (padrão MVC)
+- MySql
+- Javascript
+- HTML5
+- CSS3
 
-O ideal é criar um ***alias*** específico no servidor que direcione diretamente para a pasta *public*.
+# Como executar o projeto
 
-## Modelo de MODEL
-```php
-<?php
-namespace src\models;
-use \core\Model;
+## Pré-requisitos: PHP 7.4
 
-class Usuario extends Model {
+Banco de Dados: O arquivo está disponibilizado com o nome devsbook.sql
 
-}
-```
+```bash
+
+  # clonar repositório
+  git clone https://github.com/moraes-luciano/devsbook
+
+```bash
+
+# Autor
+
+  Luciano P. Peixoto de Moraes
+  https://www.linkedin.com/in/luciano-moraes-7b56221aa
+  e-mail: pmoraes.luciano@gmail.com
+  
