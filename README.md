@@ -4,7 +4,8 @@
 
 Devsbook é um projeto feito durante o curso de PHP com a B7Web, trata-se de um clone do Facebook capaz de seguir e ser seguido por usuários cadastrados, fazer comentários, dar likes e configurar a página de seu perfil!
 
-## Conheça suas funcionalidades
+
+# Conheça suas funcionalidades
 
 ![alt text](https://github.com/moraes-luciano/assets/blob/main/interacaoComOutrosUsuarios.png)
 
