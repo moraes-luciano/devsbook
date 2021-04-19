@@ -34,7 +34,7 @@ Banco de Dados: O arquivo está disponibilizado com o nome devsbook.sql na pasta
 
   Luciano P. Peixoto de Moraes
   \
-  https://www.linkedin.com/in/luciano-moraes-7b56221aa
+  LinkdeIn:https://www.linkedin.com/in/luciano-moraes-7b56221aa
   \
-  e-mail: pmoraes.luciano@gmail.com
+  E-mail: pmoraes.luciano@gmail.com
   
